@@ -1,19 +1,16 @@
-"""News-image entry v3, 18 November 2026 (Python 3.13, stdlib only).
+"""Put the v3 poster where the grader looks for it.
 
-The front page lives in this repository as entry.png; render.py drew it
-fresh for this version from news first reported on Wednesday 18 November
-2026. This program does one thing: copy that image to where the grader
-looks for it, as /output/entry.png. No network, no clock, no randomness,
-so every run writes exactly the same bytes. Local check:
+This entry for news-image-20261118 keeps its front page as entry.png in
+the repo root. The grader reads /output/entry.png, so this script copies
+the file there byte for byte. Standard library only, no network, no
+clock: running it twice produces identical output. Check locally with:
 MAKEFUN_OUTPUT_DIR=out python3 main.py
 """
 import os
 import shutil
-from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-OUT = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
+DST_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
 
-OUT.mkdir(parents=True, exist_ok=True)
-# A plain copy: same input in, same bytes out, on every run.
-shutil.copyfile(HERE / "entry.png", OUT / "entry.png")
+os.makedirs(DST_DIR, exist_ok=True)
+shutil.copyfile(SRC, os.path.join(DST_DIR, "entry.png"))
